@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/layout :: head-links}"></th:block>
+    <title>Edit product</title>
+</head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container body-content py-4">
+    <h2 class="mb-4">Chỉnh sửa sản phẩm</h2>
+    <form th:action="@{/products/edit}" th:object="${product}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="mb-3">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" id="name" type="text" th:field="*{name}" placeholder="product Name"/>
+            <div class="alert alert-warning border-danger mt-1 py-1 px-2 small"
+                 th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="price">Price</label>
+            <input class="form-control" id="price" type="number" th:field="*{price}" placeholder="price"/>
+            <div class="alert alert-warning border-danger mt-1 py-1 px-2 small"
+                 th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="image">Image</label>
+            <div th:if="${product.image}" class="mb-2">
+                <img th:src="@{/images/{n}(n=${product.image})}" alt="current" height="80" width="100"/>
+            </div>
+            <input class="form-control" id="image" type="file" name="imageProduct" accept=".png,.jpeg,.jpg,image/*"/>
+            <div class="alert alert-warning border-danger mt-1 py-1 px-2 small"
+                 th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="category">Category</label>
+            <select class="form-select" id="category" th:field="*{category.id}">
+                <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+            </select>
+        </div>
+        <div class="alert alert-danger" th:if="${uploadError}" th:text="${uploadError}"></div>
+        <button class="btn btn-success" type="submit">Save</button>
+        <a class="btn btn-secondary" th:href="@{/products}">Cancel</a>
+    </form>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

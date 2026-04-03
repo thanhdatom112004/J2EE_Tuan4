@@ -1,0 +1,12 @@
+package phattrienungdungjava.bai4_qltp;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class Bai4ApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+}

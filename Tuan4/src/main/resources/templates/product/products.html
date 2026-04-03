@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/layout :: head-links}"></th:block>
+    <title>Products</title>
+</head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container body-content py-4">
+    <a class="btn btn-primary mb-3" th:href="@{/products/create}">Create New Product</a>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Category Name</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${listproduct}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td>
+                <img th:if="${product.image}" th:src="@{/images/{n}(n=${product.image})}" height="120" width="150" alt=""/>
+                <span th:unless="${product.image}">—</span>
+            </td>
+            <td th:text="${product.category?.name ?: ''}"></td>
+            <td>
+                <a class="btn btn-secondary me-1" th:href="@{/products/edit/{id}(id=${product.id})}">Edit</a>
+                <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Xóa sản phẩm này?');">Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
